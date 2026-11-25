@@ -40,3 +40,5 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: ghcr.io/${{ env.OWNER }}/r_transcriptome:2.0-r4.6.2
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

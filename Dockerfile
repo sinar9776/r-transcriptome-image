@@ -4,11 +4,11 @@
 # Base: rocker/tidyverse 4.6.2 (Ubuntu 26.04, includes RStudio Server)
 # ============================================================
 
-FROM --platform=linux/amd64 rocker/tidyverse:4.6.2
+FROM rocker/tidyverse:4.6.2
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# ---- System deps ----
+# ---- System deps (dev headers for source builds + runtime libs for binaries) ----
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4-openssl-dev \
     libssl-dev \
@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libfribidi-dev \
     libcairo2-dev \
     libxt-dev \
+    libmagick++-dev \
     libgit2-dev \
     libglpk-dev \
     libgsl-dev \
@@ -34,6 +35,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     libbz2-dev \
     liblzma-dev \
+    libzstd-dev \
+    libdeflate-dev \
     cmake \
     pandoc \
     curl \
