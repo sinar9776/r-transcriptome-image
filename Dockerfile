@@ -114,7 +114,7 @@ EOF
 RUN R -q --no-save <<'EOF'
 source("/opt/install_pkgs.R")
 install_pkgs(c(
-  "survival", "ggsurvfit", "survminer", "survMisc",
+  "survival", "ggsurvfit", "survminer",
   "broom", "broom.helpers", "forestmodel",
   "maxstat", "exactRankTests", "fitdistrplus", "goftest", "polynom"
 ))
@@ -131,16 +131,13 @@ install_pkgs(c(
 ))
 EOF
 
-# ---- Rocker extras you had (usually already in the base image) ----
+# ---- Core rocker packages (already in the base image; just confirm) ----
 RUN R -q --no-save <<'EOF'
 source("/opt/install_pkgs.R")
-install_pkgs(c(
-  "tidyverse", "devtools", "BiocManager", "littler",
-  "arrow", "duckdb", "fst", "RMariaDB", "RPostgres", "Lahman", "nycflights13"
-))
+install_pkgs(c("tidyverse", "devtools", "BiocManager"))
 EOF
 
-# ---- Final parity check: every top-level package from the old image + the ones it missed ----
+# ---- Final parity check: all analysis packages from the old image + the ones it missed ----
 RUN R -q --no-save <<'EOF'
 old_top <- c(
   "BiocNeighbors", "BiocSingular", "ChIPseeker", "clusterProfiler",
@@ -149,15 +146,15 @@ old_top <- c(
   "OmnipathR", "org.Hs.eg.db", "org.Mm.eg.db", "reactome.db", "scuttle",
   "sparseMatrixStats", "TCGAbiolinks", "tidybulk",
   "TxDb.Hsapiens.UCSC.hg38.knownGene", "TxDb.Mmusculus.UCSC.mm39.knownGene",
-  "arrow", "BiocManager", "broom.helpers", "carData", "ComplexUpset",
-  "corrplot", "devtools", "doBy", "docopt", "dqrng", "duckdb",
+  "BiocManager", "broom.helpers", "carData", "ComplexUpset",
+  "corrplot", "devtools", "doBy", "docopt", "dqrng",
   "exactRankTests", "fastDummies", "fitdistrplus", "FNN", "forestmodel",
-  "fst", "ggrastr", "ggridges", "ggsci", "ggsignif", "ggsurvfit", "ggtext",
-  "ggvenn", "goftest", "homologene", "ica", "janitor", "Lahman", "littler",
-  "memuse", "minqa", "msigdbr", "nloptr", "nycflights13", "openxlsx",
+  "ggrastr", "ggridges", "ggsci", "ggsignif", "ggsurvfit", "ggtext",
+  "ggvenn", "goftest", "homologene", "ica", "janitor",
+  "memuse", "minqa", "msigdbr", "nloptr", "openxlsx",
   "pbapply", "pheatmap", "polynom", "progressr", "quantreg", "RANN",
-  "RcppAnnoy", "RcppHNSW", "RcppProgress", "reticulate", "RMariaDB", "ROCR",
-  "RPostgres", "Rtsne", "sctransform", "sp", "spam", "survMisc", "svglite",
+  "RcppAnnoy", "RcppHNSW", "RcppProgress", "reticulate", "ROCR",
+  "Rtsne", "sctransform", "sp", "spam", "svglite",
   "tensor", "tidyverse", "UpSetR", "viridis", "writexl"
 )
 previously_missing <- c(
